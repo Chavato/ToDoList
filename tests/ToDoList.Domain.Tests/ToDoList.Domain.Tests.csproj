@@ -22,4 +22,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\ToDoList.Domain\ToDoList.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
