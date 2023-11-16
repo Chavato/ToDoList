@@ -2,11 +2,14 @@ namespace ToDoList.Domain.Entities
 {
     public sealed class CheckList : Entity
     {
-        public IEnumerable<Item> Items { get; private set; }
+        public int CardId { get; private set; }
 
-        public CheckList(IEnumerable<Item> items, string name) : base(name)
+        public Card? Card { get; set; }
+        public IEnumerable<Item>? Items { get; private set; }
+
+        public CheckList(string name, int cardId) : base(name)
         {
-            Items = items;
+            CardId = cardId;
         }
 
     }
