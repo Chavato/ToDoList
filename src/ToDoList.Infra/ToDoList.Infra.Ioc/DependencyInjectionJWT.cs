@@ -12,8 +12,8 @@ namespace ToDoList.Infra.Ioc
         public static IServiceCollection AddInfrastructureJWT(this IServiceCollection services, IConfiguration configuration)
         {
             string? validIssuerJWT = configuration["JWT_VALID_ISSUER"];
-            string? validAudienceJWT = configuration["JWT_VALID_ISSUER"];
-            string? secretJWT = configuration["JWT_VALID_ISSUER"];
+            string? validAudienceJWT = configuration["JWT_VALID_AUDIENCE"];
+            string? secretJWT = configuration["JWT_SECRET"];
 
             if (validAudienceJWT.IsNullOrEmpty() || validIssuerJWT.IsNullOrEmpty() || secretJWT.IsNullOrEmpty())
             {
