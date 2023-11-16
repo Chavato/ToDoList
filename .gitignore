@@ -476,4 +476,4 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-\src\ToDoList.WebApi\appsettings.Development.json
+src/ToDoList.WebApi/appsettings.Development.json
