@@ -23,7 +23,7 @@ namespace ToDoList.Infra.Ioc
 
         private static IServiceCollection ConfigureDatabase(this IServiceCollection services, IConfiguration configuration)
         {
-            string? connectionString = configuration.GetConnectionString("ConnectionString");
+            string? connectionString = configuration.GetConnectionString("DefaultConnection");
             if (connectionString == null)
             {
                 //TODO: Search a better exception to throw in this situation.
