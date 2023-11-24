@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using ToDoList.Application.Profiles;
 using ToDoList.Domain.Interfaces.RepositoriesInterfaces;
 using ToDoList.Infra.Data.Context;
 using ToDoList.Infra.Data.Identity;
@@ -13,6 +14,8 @@ namespace ToDoList.Infra.Ioc
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
+
+            services.AddAutoMapper(typeof(MainProfile));
 
             services.ConfigureDatabase(configuration);
             services.AddDependencyInjectionRepositories();
