@@ -6,7 +6,7 @@ namespace ToDoList.Domain.Entities
     {
 
         public Guid Id { get; private set; }
-        public string Name { get; set; }
+        public string Name { get; protected set; }
         public DateTime CreateTime { get; set; }
         public DateTime ModifyTime { get; set; }
 
