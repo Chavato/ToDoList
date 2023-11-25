@@ -2,7 +2,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using ToDoList.Application.Interfaces;
 using ToDoList.Application.Profiles;
+using ToDoList.Application.Services;
 using ToDoList.Domain.Interfaces.RepositoriesInterfaces;
 using ToDoList.Infra.Data.Context;
 using ToDoList.Infra.Data.Identity;
@@ -50,15 +52,18 @@ namespace ToDoList.Infra.Ioc
         private static IServiceCollection AddDependencyInjectionRepositories(this IServiceCollection services)
         {
             services.AddScoped<ICardRepository, CardRepository>();
-            services.AddScoped<CheckListRepository, CheckListRepository>();
-            services.AddScoped<ItemRepository, ItemRepository>();
+            services.AddScoped<ICheckListRepository, CheckListRepository>();
+            services.AddScoped<IItemRepository, ItemRepository>();
 
             return services;
         }
 
         private static IServiceCollection AddDependencyInjectionServices(this IServiceCollection services)
         {
-            //TODO: Register dependency injection services here.
+            services.AddScoped<ICardService, CardService>();
+            services.AddScoped<ICheckListService, CheckListService>();
+            services.AddScoped<IItemService, ItemService>();
+
             return services;
         }
 

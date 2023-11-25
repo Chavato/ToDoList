@@ -2,6 +2,7 @@ using AutoMapper;
 using ToDoList.Application.Interfaces;
 using ToDoList.Application.Models.DTOs;
 using ToDoList.Domain.Entities;
+using ToDoList.Domain.Exceptions;
 using ToDoList.Domain.Interfaces.RepositoriesInterfaces;
 
 namespace ToDoList.Application.Services
@@ -20,6 +21,7 @@ namespace ToDoList.Application.Services
 
         public async Task<CardDto> CreateAsync(CardDto cardDto)
         {
+            // cardDto.Id = Guid.Empty;
             var card = _mapper.Map<Card>(cardDto);
 
             await _cardRepository.CreateAsync(card);
@@ -59,7 +61,12 @@ namespace ToDoList.Application.Services
 
         public async Task UpdateAsync(CardDto cardDto)
         {
-            var card = await _cardRepository.GetAsync(cardDto.Id);
+            if (cardDto.Id == null)
+            {
+                throw new BadRequestException("Invalid id.");
+            }
+
+            var card = await _cardRepository.GetAsync((Guid)cardDto.Id);
 
             card.Update(card.Name,
                         card.Description,
