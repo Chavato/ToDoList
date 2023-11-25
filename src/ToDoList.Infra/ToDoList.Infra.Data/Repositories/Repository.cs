@@ -15,7 +15,7 @@ namespace ToDoList.Infra.Data.Repositories
             _context = context;
         }
 
-        public virtual async Task<TEntity> GetAsync(int id)
+        public virtual async Task<TEntity> GetAsync(Guid id)
         {
             var entity = await _context.Set<TEntity>().FindAsync(id);
             if (entity == null)

@@ -4,7 +4,7 @@ namespace ToDoList.Domain.Interfaces.RepositoriesInterfaces
 {
     public interface IRepository<TEntity> where TEntity : Entity
     {
-        Task<TEntity> GetAsync(int id);
+        Task<TEntity> GetAsync(Guid id);
         Task<IEnumerable<TEntity>> GetAllAsync();
         Task<TEntity> CreateAsync(TEntity entity);
         Task CreateRangeAsync(IEnumerable<TEntity> entities);

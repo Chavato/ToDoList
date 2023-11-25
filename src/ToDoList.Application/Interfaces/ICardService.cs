@@ -5,10 +5,10 @@ namespace ToDoList.Application.Interfaces
     public interface ICardService
     {
         Task<CardDto> CreateAsync(CardDto cardDto);
-        Task<CardDto> UpdateAsync(CardDto cardDto);
-        Task<CardDto> GetAsync(int cardId);
+        Task UpdateAsync(CardDto cardDto);
+        Task<CardDto> GetAsync(Guid cardId);
         Task<IEnumerable<CardDto>> GetAllAsync();
-        Task DeleteAsync(int cardId);
+        Task DeleteAsync(Guid cardId);
         Task DeleteAllAsync();
 
     }
