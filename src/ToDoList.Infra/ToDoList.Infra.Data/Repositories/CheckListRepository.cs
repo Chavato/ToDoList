@@ -14,7 +14,7 @@ namespace ToDoList.Infra.Data.Repositories
         public async Task<IEnumerable<CheckList>> GetByCardIdAsync(Guid cardId)
         {
             return await _context.CheckList.AsNoTracking()
-                                           .Where(checkList => checkList.Id == cardId)
+                                           .Where(checkList => checkList.CardId == cardId)
                                            .ToListAsync();
         }
     }

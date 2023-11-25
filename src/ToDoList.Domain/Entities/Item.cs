@@ -3,7 +3,7 @@ namespace ToDoList.Domain.Entities
     public class Item : Entity
     {
         public bool IsDone { get; private set; }
-        public int CheckListId { get; set; }
+        public Guid CheckListId { get; set; }
 
         public CheckList? CheckList { get; set; }
 
