@@ -1,38 +1,74 @@
+using AutoMapper;
 using ToDoList.Application.Interfaces;
 using ToDoList.Application.Models.DTOs;
+using ToDoList.Domain.Entities;
+using ToDoList.Domain.Interfaces.RepositoriesInterfaces;
 
 namespace ToDoList.Application.Services
 {
     public class CardService : ICardService
     {
-        public Task<CardDto> CreateAsync(CardDto cardDto)
+
+        private readonly ICardRepository _cardRepository;
+        private readonly IMapper _mapper;
+
+        public CardService(ICardRepository cardRepository, IMapper mapper)
         {
-            throw new NotImplementedException();
+            _cardRepository = cardRepository;
+            _mapper = mapper;
         }
 
-        public Task DeleteAllAsync()
+        public async Task<CardDto> CreateAsync(CardDto cardDto)
         {
-            throw new NotImplementedException();
+            var card = _mapper.Map<Card>(cardDto);
+
+            await _cardRepository.CreateAsync(card);
+
+            cardDto.Id = card.Id;
+
+            return cardDto;
         }
 
-        public Task DeleteAsync(int cardId)
+        public async Task DeleteAllAsync()
         {
-            throw new NotImplementedException();
+            var card = await _cardRepository.GetAllAsync();
+
+            await _cardRepository.DeleteRangeAsync(card);
         }
 
-        public Task<IEnumerable<CardDto>> GetAllAsync()
+        public async Task DeleteAsync(Guid cardId)
         {
-            throw new NotImplementedException();
+            var card = await _cardRepository.GetAsync(cardId);
+
+            await _cardRepository.DeleteAsync(card);
         }
 
-        public Task<CardDto> GetAsync(int cardId)
+        public async Task<IEnumerable<CardDto>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            var cards = await _cardRepository.GetAllAsync();
+
+            return _mapper.Map<IEnumerable<CardDto>>(cards);
         }
 
-        public Task<CardDto> UpdateAsync(CardDto cardDto)
+        public async Task<CardDto> GetAsync(Guid cardId)
         {
-            throw new NotImplementedException();
+            var card = await _cardRepository.GetAsync(cardId);
+
+            return _mapper.Map<CardDto>(card);
+        }
+
+        public async Task UpdateAsync(CardDto cardDto)
+        {
+            var card = await _cardRepository.GetAsync(cardDto.Id);
+
+            card.Update(card.Name,
+                        card.Description,
+                        card.DifficultyLevel,
+                        card.Priority,
+                        card.DeadLine,
+                        card.StartTime);
+
+            await _cardRepository.UpdateAsync(card);
         }
     }
 }
