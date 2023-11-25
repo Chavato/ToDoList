@@ -27,22 +27,22 @@ namespace ToDoList.Application.Services
             throw new NotImplementedException();
         }
 
-        public Task DeleteAsync(int itemId)
+        public Task DeleteAsync(Guid itemId)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<ItemDto>> GetAllAsync(int checkListId)
+        public Task<IEnumerable<ItemDto>> GetAllAsync(Guid checkListId)
         {
             throw new NotImplementedException();
         }
 
-        public Task<ItemDto> GetAsync(int itemId)
+        public Task<ItemDto> GetAsync(Guid itemId)
         {
             throw new NotImplementedException();
         }
 
-        public Task<ItemDto> UpdateAsync(ItemDto itemDto)
+        public Task UpdateAsync(ItemDto itemDto)
         {
             throw new NotImplementedException();
         }
