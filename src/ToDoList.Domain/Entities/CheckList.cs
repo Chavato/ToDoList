@@ -12,5 +12,10 @@ namespace ToDoList.Domain.Entities
             CardId = cardId;
         }
 
+        public void Update(string name)
+        {
+            Name = name;
+        }
+
     }
 }

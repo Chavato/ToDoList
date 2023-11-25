@@ -1,6 +1,7 @@
 using AutoMapper;
 using ToDoList.Application.Interfaces;
 using ToDoList.Application.Models.DTOs;
+using ToDoList.Domain.Entities;
 using ToDoList.Domain.Interfaces.RepositoriesInterfaces;
 
 namespace ToDoList.Application.Services
@@ -17,34 +18,57 @@ namespace ToDoList.Application.Services
             _mapper = mapper;
         }
 
-        public Task<CheckListDto> CreateAsync(CheckListDto checkListDto)
+        public async Task<CheckListDto> CreateAsync(CheckListDto checkListDto)
         {
-            throw new NotImplementedException();
+
+            var checkList = _mapper.Map<CheckList>(checkListDto);
+
+            await _checkListRepository.CreateAsync(checkList);
+
+            checkListDto.Id = checkList.Id;
+
+            return checkListDto;
         }
 
-        public Task DeleteAllAsync()
+        public async Task DeleteAllAsync(Guid cardId)
         {
-            throw new NotImplementedException();
+            var checkLists = await _checkListRepository.GetByCardIdAsync(cardId);
+
+            await _checkListRepository.DeleteRangeAsync(checkLists);
         }
 
-        public Task DeleteAsync(int checkListId)
+        public async Task DeleteAsync(Guid checkListId)
         {
-            throw new NotImplementedException();
+
+            var checkList = await _checkListRepository.GetAsync(checkListId);
+
+            await _checkListRepository.DeleteAsync(checkList);
         }
 
-        public Task<IEnumerable<CheckListDto>> GetAllAsync(int cardId)
+        public async Task<IEnumerable<CheckListDto>> GetAllAsync(Guid cardId)
         {
-            throw new NotImplementedException();
+
+            var checkLists = await _checkListRepository.GetByCardIdAsync(cardId);
+
+            return _mapper.Map<IEnumerable<CheckListDto>>(checkLists);
         }
 
-        public Task<CheckListDto> GetAsync(int checkListId)
+        public async Task<CheckListDto> GetAsync(Guid checkListId)
         {
-            throw new NotImplementedException();
+
+            var checkList = await _checkListRepository.GetAsync(checkListId);
+
+            return _mapper.Map<CheckListDto>(checkList);
         }
 
-        public Task<CheckListDto> UpdateAsync(CheckListDto checkListDto)
+        public async Task UpdateAsync(CheckListDto checkListDto)
         {
-            throw new NotImplementedException();
+
+            var checkList = await _checkListRepository.GetAsync(checkListDto.Id);
+
+            checkList.Update(checkListDto.Name);
+
+            await _checkListRepository.UpdateAsync(checkList);
         }
     }
 }

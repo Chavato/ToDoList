@@ -9,6 +9,6 @@ namespace ToDoList.Application.Interfaces
         Task<CheckListDto> GetAsync(Guid checkListId);
         Task<IEnumerable<CheckListDto>> GetAllAsync(Guid cardId);
         Task DeleteAsync(Guid checkListId);
-        Task DeleteAllAsync();
+        Task DeleteAllAsync(Guid cardId);
     }
 }
