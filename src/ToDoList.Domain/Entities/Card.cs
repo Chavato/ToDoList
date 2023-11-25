@@ -25,5 +25,19 @@ namespace ToDoList.Domain.Entities
             StartTime = startTime;
         }
 
+        public void Update(string name,
+                           string description,
+                           DifficultyLevel difficultyLevel,
+                           Priority priority,
+                           DateTime deadLine,
+                           DateTime startTime)
+        {
+            Name = name;
+            Description = description;
+            DifficultyLevel = difficultyLevel;
+            Priority = priority;
+            DeadLine = deadLine;
+            StartTime = startTime;
+        }
     }
 }
