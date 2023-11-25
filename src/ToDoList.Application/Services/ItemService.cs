@@ -1,6 +1,7 @@
 using AutoMapper;
 using ToDoList.Application.Interfaces;
 using ToDoList.Application.Models.DTOs;
+using ToDoList.Domain.Entities;
 using ToDoList.Domain.Interfaces.RepositoriesInterfaces;
 
 namespace ToDoList.Application.Services
@@ -17,34 +18,54 @@ namespace ToDoList.Application.Services
             _mapper = mapper;
         }
 
-        public Task<ItemDto> CreateAsync(ItemDto itemDto)
+        public async Task<ItemDto> CreateAsync(ItemDto itemDto)
         {
-            throw new NotImplementedException();
+
+            var item = _mapper.Map<Item>(itemDto);
+
+            await _itemRepository.CreateAsync(item);
+
+            itemDto.Id = item.Id;
+
+            return itemDto;
         }
 
-        public Task DeleteAllAsync()
+        public async Task DeleteAllAsync(Guid checkListId)
         {
-            throw new NotImplementedException();
+
+            var items = await _itemRepository.GetByCheckListId(checkListId);
+
+            await _itemRepository.DeleteRangeAsync(items);
         }
 
-        public Task DeleteAsync(Guid itemId)
+        public async Task DeleteAsync(Guid itemId)
         {
-            throw new NotImplementedException();
+            var item = await _itemRepository.GetAsync(itemId);
+
+            await _itemRepository.DeleteAsync(item);
         }
 
-        public Task<IEnumerable<ItemDto>> GetAllAsync(Guid checkListId)
+        public async Task<IEnumerable<ItemDto>> GetAllAsync(Guid checkListId)
         {
-            throw new NotImplementedException();
+            var items = await _itemRepository.GetByCheckListId(checkListId);
+
+            return _mapper.Map<IEnumerable<ItemDto>>(items);
         }
 
-        public Task<ItemDto> GetAsync(Guid itemId)
+        public async Task<ItemDto> GetAsync(Guid itemId)
         {
-            throw new NotImplementedException();
+            var item = await _itemRepository.GetAsync(itemId);
+
+            return _mapper.Map<ItemDto>(item);
         }
 
-        public Task UpdateAsync(ItemDto itemDto)
+        public async Task UpdateAsync(ItemDto itemDto)
         {
-            throw new NotImplementedException();
+            var item = await _itemRepository.GetAsync(itemDto.Id);
+
+            item.Update(itemDto.Name, itemDto.IsDone);
+
+            await _itemRepository.UpdateAsync(item);
         }
     }
 }

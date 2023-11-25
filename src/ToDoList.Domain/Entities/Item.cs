@@ -12,5 +12,11 @@ namespace ToDoList.Domain.Entities
             IsDone = isDone;
         }
 
+        public void Update(string name, bool isDone)
+        {
+            Name = name;
+            IsDone = isDone;
+        }
+
     }
 }
