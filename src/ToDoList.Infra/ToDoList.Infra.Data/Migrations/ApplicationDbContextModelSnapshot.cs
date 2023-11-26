@@ -241,13 +241,9 @@ namespace ToDoList.Infra.Data.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("id");
 
-                    b.Property<int>("CardId")
-                        .HasColumnType("int")
-                        .HasColumnName("card_id");
-
-                    b.Property<Guid?>("CardId1")
+                    b.Property<Guid>("CardId")
                         .HasColumnType("uniqueidentifier")
-                        .HasColumnName("card_id1");
+                        .HasColumnName("card_id");
 
                     b.Property<DateTime>("CreateTime")
                         .HasColumnType("datetime2")
@@ -265,8 +261,8 @@ namespace ToDoList.Infra.Data.Migrations
                     b.HasKey("Id")
                         .HasName("pk_check_list");
 
-                    b.HasIndex("CardId1")
-                        .HasDatabaseName("ix_check_list_card_id1");
+                    b.HasIndex("CardId")
+                        .HasDatabaseName("ix_check_list_card_id");
 
                     b.ToTable("check_list", (string)null);
                 });
@@ -278,13 +274,9 @@ namespace ToDoList.Infra.Data.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("id");
 
-                    b.Property<int>("CheckListId")
-                        .HasColumnType("int")
-                        .HasColumnName("check_list_id");
-
-                    b.Property<Guid?>("CheckListId1")
+                    b.Property<Guid>("CheckListId")
                         .HasColumnType("uniqueidentifier")
-                        .HasColumnName("check_list_id1");
+                        .HasColumnName("check_list_id");
 
                     b.Property<DateTime>("CreateTime")
                         .HasColumnType("datetime2")
@@ -306,8 +298,8 @@ namespace ToDoList.Infra.Data.Migrations
                     b.HasKey("Id")
                         .HasName("pk_item");
 
-                    b.HasIndex("CheckListId1")
-                        .HasDatabaseName("ix_item_check_list_id1");
+                    b.HasIndex("CheckListId")
+                        .HasDatabaseName("ix_item_check_list_id");
 
                     b.ToTable("item", (string)null);
                 });
@@ -454,8 +446,10 @@ namespace ToDoList.Infra.Data.Migrations
                 {
                     b.HasOne("ToDoList.Domain.Entities.Card", "Card")
                         .WithMany("CheckLists")
-                        .HasForeignKey("CardId1")
-                        .HasConstraintName("fk_check_list_card_card_id1");
+                        .HasForeignKey("CardId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_check_list_card_card_id");
 
                     b.Navigation("Card");
                 });
@@ -464,8 +458,10 @@ namespace ToDoList.Infra.Data.Migrations
                 {
                     b.HasOne("ToDoList.Domain.Entities.CheckList", "CheckList")
                         .WithMany("Items")
-                        .HasForeignKey("CheckListId1")
-                        .HasConstraintName("fk_item_check_list_check_list_id1");
+                        .HasForeignKey("CheckListId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_item_check_list_check_list_id");
 
                     b.Navigation("CheckList");
                 });

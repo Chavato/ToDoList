@@ -180,8 +180,7 @@ namespace ToDoList.Infra.Data.Migrations
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    card_id = table.Column<int>(type: "int", nullable: false),
-                    card_id1 = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    card_id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     create_time = table.Column<DateTime>(type: "datetime2", nullable: false),
                     modify_time = table.Column<DateTime>(type: "datetime2", nullable: false)
@@ -190,10 +189,11 @@ namespace ToDoList.Infra.Data.Migrations
                 {
                     table.PrimaryKey("pk_check_list", x => x.id);
                     table.ForeignKey(
-                        name: "fk_check_list_card_card_id1",
-                        column: x => x.card_id1,
+                        name: "fk_check_list_card_card_id",
+                        column: x => x.card_id,
                         principalTable: "card",
-                        principalColumn: "id");
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -202,8 +202,7 @@ namespace ToDoList.Infra.Data.Migrations
                 {
                     id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     is_done = table.Column<bool>(type: "bit", nullable: false),
-                    check_list_id = table.Column<int>(type: "int", nullable: false),
-                    check_list_id1 = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    check_list_id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     create_time = table.Column<DateTime>(type: "datetime2", nullable: false),
                     modify_time = table.Column<DateTime>(type: "datetime2", nullable: false)
@@ -212,10 +211,11 @@ namespace ToDoList.Infra.Data.Migrations
                 {
                     table.PrimaryKey("pk_item", x => x.id);
                     table.ForeignKey(
-                        name: "fk_item_check_list_check_list_id1",
-                        column: x => x.check_list_id1,
+                        name: "fk_item_check_list_check_list_id",
+                        column: x => x.check_list_id,
                         principalTable: "check_list",
-                        principalColumn: "id");
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -258,14 +258,14 @@ namespace ToDoList.Infra.Data.Migrations
                 filter: "[normalized_user_name] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "ix_check_list_card_id1",
+                name: "ix_check_list_card_id",
                 table: "check_list",
-                column: "card_id1");
+                column: "card_id");
 
             migrationBuilder.CreateIndex(
-                name: "ix_item_check_list_id1",
+                name: "ix_item_check_list_id",
                 table: "item",
-                column: "check_list_id1");
+                column: "check_list_id");
         }
 
         /// <inheritdoc />
