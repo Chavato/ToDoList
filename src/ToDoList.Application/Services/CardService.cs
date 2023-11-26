@@ -68,12 +68,12 @@ namespace ToDoList.Application.Services
 
             var card = await _cardRepository.GetAsync((Guid)cardDto.Id);
 
-            card.Update(card.Name,
-                        card.Description,
-                        card.DifficultyLevel,
-                        card.Priority,
-                        card.DeadLine,
-                        card.StartTime);
+            card.Update(cardDto.Name,
+                        cardDto.Description,
+                        cardDto.DifficultyLevel,
+                        cardDto.Priority,
+                        cardDto.DeadLine,
+                        cardDto.StartTime);
 
             await _cardRepository.UpdateAsync(card);
         }
