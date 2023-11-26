@@ -54,10 +54,24 @@ namespace ToDoList.Application.Services
             return _mapper.Map<IEnumerable<CheckListDto>>(checkLists);
         }
 
+        public async Task<IEnumerable<CheckListDto>> GetAllDetailsAsync(Guid cardId)
+        {
+            var checkLists = await _checkListRepository.GetDetailsByCardIdAsync(cardId);
+
+            return _mapper.Map<IEnumerable<CheckListDto>>(checkLists);
+        }
+
         public async Task<CheckListDto> GetAsync(Guid checkListId)
         {
 
             var checkList = await _checkListRepository.GetAsync(checkListId);
+
+            return _mapper.Map<CheckListDto>(checkList);
+        }
+
+        public async Task<CheckListDto> GetDetailsAsync(Guid checkListId)
+        {
+            var checkList = await _checkListRepository.GetDetailsAsync(checkListId);
 
             return _mapper.Map<CheckListDto>(checkList);
         }
@@ -69,7 +83,7 @@ namespace ToDoList.Application.Services
             {
                 throw new BadRequestException("Invalid id.");
             }
-            
+
             var checkList = await _checkListRepository.GetAsync((Guid)checkListDto.Id);
 
             checkList.Update(checkListDto.Name);
