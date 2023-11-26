@@ -2,6 +2,7 @@ using AutoMapper;
 using ToDoList.Application.Interfaces;
 using ToDoList.Application.Models.DTOs;
 using ToDoList.Domain.Entities;
+using ToDoList.Domain.Exceptions;
 using ToDoList.Domain.Interfaces.RepositoriesInterfaces;
 
 namespace ToDoList.Application.Services
@@ -61,7 +62,13 @@ namespace ToDoList.Application.Services
 
         public async Task UpdateAsync(ItemDto itemDto)
         {
-            var item = await _itemRepository.GetAsync(itemDto.Id);
+
+            if (itemDto.Id == null)
+            {
+                throw new BadRequestException("Invalid id.");
+            }
+
+            var item = await _itemRepository.GetAsync((Guid)itemDto.Id);
 
             item.Update(itemDto.Name, itemDto.IsDone);
 

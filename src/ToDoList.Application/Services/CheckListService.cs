@@ -2,6 +2,7 @@ using AutoMapper;
 using ToDoList.Application.Interfaces;
 using ToDoList.Application.Models.DTOs;
 using ToDoList.Domain.Entities;
+using ToDoList.Domain.Exceptions;
 using ToDoList.Domain.Interfaces.RepositoriesInterfaces;
 
 namespace ToDoList.Application.Services
@@ -64,7 +65,12 @@ namespace ToDoList.Application.Services
         public async Task UpdateAsync(CheckListDto checkListDto)
         {
 
-            var checkList = await _checkListRepository.GetAsync(checkListDto.Id);
+            if (checkListDto.Id == null)
+            {
+                throw new BadRequestException("Invalid id.");
+            }
+            
+            var checkList = await _checkListRepository.GetAsync((Guid)checkListDto.Id);
 
             checkList.Update(checkListDto.Name);
 
