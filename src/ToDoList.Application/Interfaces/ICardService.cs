@@ -7,6 +7,8 @@ namespace ToDoList.Application.Interfaces
         Task<CardDto> CreateAsync(CardDto cardDto);
         Task UpdateAsync(CardDto cardDto);
         Task<CardDto> GetAsync(Guid cardId);
+        Task<CardDto> GetDetailsAsync(Guid cardId);
+        Task<IEnumerable<CardDto>> GetAllDetailsAsync();
         Task<IEnumerable<CardDto>> GetAllAsync();
         Task DeleteAsync(Guid cardId);
         Task DeleteAllAsync();

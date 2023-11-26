@@ -113,6 +113,35 @@ namespace ToDoList.WebApi.Controllers
             }
         }
 
+        [HttpGet("Details/{cardId:Guid}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CardDto))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> GetDetailsAsync(Guid cardId)
+        {
+            try
+            {
+
+                var card = await _cardService.GetDetailsAsync(cardId);
+
+                return Ok(card);
+            }
+
+            catch (NotFoundException err)
+            {
+                return Problem(detail: err.Message, statusCode: 404);
+            }
+
+            catch (Exception err)
+            {
+                if (err.InnerException != null)
+                {
+                    return Problem(detail: err.InnerException.Message, statusCode: 500);
+                }
+                return Problem(detail: err.Message, statusCode: 500);
+            }
+        }
+
         [HttpGet("All")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<CardDto>))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -122,6 +151,29 @@ namespace ToDoList.WebApi.Controllers
             {
 
                 var cards = await _cardService.GetAllAsync();
+
+                return Ok(cards);
+            }
+
+            catch (Exception err)
+            {
+                if (err.InnerException != null)
+                {
+                    return Problem(detail: err.InnerException.Message, statusCode: 500);
+                }
+                return Problem(detail: err.Message, statusCode: 500);
+            }
+        }
+
+        [HttpGet("Details/All")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<CardDto>))]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> GetAllDetailsAsync()
+        {
+            try
+            {
+
+                var cards = await _cardService.GetAllDetailsAsync();
 
                 return Ok(cards);
             }

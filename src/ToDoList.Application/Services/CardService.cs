@@ -52,12 +52,25 @@ namespace ToDoList.Application.Services
             return _mapper.Map<IEnumerable<CardDto>>(cards);
         }
 
+        public async Task<IEnumerable<CardDto>> GetAllDetailsAsync()
+        {
+            var cards = await _cardRepository.GetAllDetailsAsync();
+
+            return _mapper.Map<IEnumerable<CardDto>>(cards);
+        }
+
         public async Task<CardDto> GetAsync(Guid cardId)
         {
             var card = await _cardRepository.GetAsync(cardId);
 
             return _mapper.Map<CardDto>(card);
         }
+
+        public async Task<CardDto> GetDetailsAsync(Guid cardId)
+        {
+            var card = await _cardRepository.GetDetailsAsync(cardId);
+
+            return _mapper.Map<CardDto>(card);        }
 
         public async Task UpdateAsync(CardDto cardDto)
         {
