@@ -10,7 +10,8 @@ namespace ToDoList.Application.Models.DTOs
 
         [Required(ErrorMessage ="Name field could not be empty.")]
         public string Name { get; set; }
-        public string? Description { get; set; }
+
+        public string Description { get; set; }
         public DifficultyLevel DifficultyLevel { get; set; }
 
         public Priority Priority { get; set; }
@@ -20,6 +21,6 @@ namespace ToDoList.Application.Models.DTOs
 
         [DataType(DataType.DateTime)]
         public DateTime StartTime { get; set; }
-        public IEnumerable<CheckList>? CheckLists { get; set; }
+        public IEnumerable<CheckListDto>? CheckLists { get; set; }
     }
 }
