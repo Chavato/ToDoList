@@ -11,13 +11,14 @@ namespace ToDoList.Infra.Data.Repositories
         {
         }
 
-        public async Task<IEnumerable<Item>> GetByCheckListId(Guid checkListId)
+        public async Task<IEnumerable<Item>> GetByCheckListIdAsync(Guid checkListId)
         {
 
             return await _context.Item.AsNoTracking()
                                       .Where(item => item.CheckListId == checkListId)
                                       .ToListAsync();
-                                      
+
         }
+
     }
 }

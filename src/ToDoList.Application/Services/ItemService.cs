@@ -34,7 +34,7 @@ namespace ToDoList.Application.Services
         public async Task DeleteAllAsync(Guid checkListId)
         {
 
-            var items = await _itemRepository.GetByCheckListId(checkListId);
+            var items = await _itemRepository.GetByCheckListIdAsync(checkListId);
 
             await _itemRepository.DeleteRangeAsync(items);
         }
@@ -48,7 +48,7 @@ namespace ToDoList.Application.Services
 
         public async Task<IEnumerable<ItemDto>> GetAllAsync(Guid checkListId)
         {
-            var items = await _itemRepository.GetByCheckListId(checkListId);
+            var items = await _itemRepository.GetByCheckListIdAsync(checkListId);
 
             return _mapper.Map<IEnumerable<ItemDto>>(items);
         }

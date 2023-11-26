@@ -4,6 +4,7 @@ namespace ToDoList.Domain.Interfaces.RepositoriesInterfaces
 {
     public interface IItemRepository : IRepository<Item>
     {
-        Task<IEnumerable<Item>> GetByCheckListId(Guid checkListId);
+        Task<IEnumerable<Item>> GetByCheckListIdAsync(Guid checkListId);
+    
     }
 }
