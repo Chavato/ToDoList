@@ -146,7 +146,7 @@ namespace ToDoList.WebApi.Controllers
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<CardDto>))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetAllAsync()
-        {
+        { 
             try
             {
 
@@ -165,7 +165,7 @@ namespace ToDoList.WebApi.Controllers
             }
         }
 
-        [HttpGet("Details/All")]
+        [HttpGet("All/Details")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<CardDto>))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetAllDetailsAsync()
