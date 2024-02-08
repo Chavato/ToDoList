@@ -21,7 +21,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ToDoList.Infra", "ToDoList.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDoList.Infra.Data", "src\ToDoList.Infra\ToDoList.Infra.Data\ToDoList.Infra.Data.csproj", "{B987C12C-BE29-443E-93CB-D26FCC2A7060}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDoList.Infra.IoC", "src\ToDoList.Infra\ToDoList.Infra.Ioc\ToDoList.Infra.IoC.csproj", "{56501AB7-19B8-418A-B889-6C79003E0BE0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDoList.Infra.IoC", "src\ToDoList.Infra\ToDoList.Infra.IoC\ToDoList.Infra.IoC.csproj", "{56501AB7-19B8-418A-B889-6C79003E0BE0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

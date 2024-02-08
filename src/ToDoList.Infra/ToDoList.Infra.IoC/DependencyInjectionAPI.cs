@@ -10,7 +10,7 @@ using ToDoList.Infra.Data.Context;
 using ToDoList.Infra.Data.Identity;
 using ToDoList.Infra.Data.Repositories;
 
-namespace ToDoList.Infra.Ioc
+namespace ToDoList.Infra.IoC
 {
     public static class DependencyInjectionAPI
     {

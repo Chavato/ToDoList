@@ -2,7 +2,7 @@ using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ToDoList.Infra.Data.Context;
-using ToDoList.Infra.Ioc;
+using ToDoList.Infra.IoC;
 
 
 var builder = WebApplication.CreateBuilder(args);

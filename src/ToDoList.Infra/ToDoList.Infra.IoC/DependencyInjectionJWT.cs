@@ -5,7 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 
-namespace ToDoList.Infra.Ioc
+namespace ToDoList.Infra.IoC
 {
     public static class DependencyInjectionJWT
     {
