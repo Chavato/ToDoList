@@ -54,6 +54,7 @@ namespace ToDoList.Infra.IoC
             services.AddScoped<ICardRepository, CardRepository>();
             services.AddScoped<ICheckListRepository, CheckListRepository>();
             services.AddScoped<IItemRepository, ItemRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
 
             return services;
         }
@@ -63,6 +64,7 @@ namespace ToDoList.Infra.IoC
             services.AddScoped<ICardService, CardService>();
             services.AddScoped<ICheckListService, CheckListService>();
             services.AddScoped<IItemService, ItemService>();
+            services.AddScoped<IUserService, UserService>();
 
             return services;
         }
