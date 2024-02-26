@@ -8,6 +8,7 @@ using ToDoList.Application.Services;
 using ToDoList.Domain.Interfaces.RepositoriesInterfaces;
 using ToDoList.Infra.Data.Context;
 using ToDoList.Infra.Data.Identity;
+using ToDoList.Infra.Data.Profiles;
 using ToDoList.Infra.Data.Repositories;
 
 namespace ToDoList.Infra.IoC
@@ -17,7 +18,7 @@ namespace ToDoList.Infra.IoC
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
 
-            services.AddAutoMapper(typeof(MainProfile));
+            services.AddAutoMapper(typeof(MainProfile), typeof(UserProfile));
 
             services.ConfigureDatabase(configuration);
             services.AddDependencyInjectionRepositories();
