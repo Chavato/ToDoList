@@ -4,11 +4,12 @@ namespace ToDoList.Application.Interfaces
 {
     public interface IUserService
     {
-        Task<bool> AuthenicateUser(string email, string password);
-        Task<ApplicationUserDto> RegisterUser(string email, string password);
-        Task<ApplicationUserDto> UpdateUser(ApplicationUserDto applicationUser);
-        Task DeleteUser(string userId);
-        Task<ApplicationUserDto> ChangePassword(ApplicationUserDto applicationUser, string newPassword);
-        Task Logout();
+        Task<bool> AuthenicateUserAsync(string email, string password);
+        Task<ApplicationUserDto> GetUserByEmailAsync(string userEmail);
+        Task RegisterUserAsync(string email, string password);
+        Task<ApplicationUserDto> UpdateUserAsync(ApplicationUserDto applicationUser);
+        Task DeleteUserAsync(string userId);
+        Task<ApplicationUserDto> ChangePasswordAsync(ApplicationUserDto applicationUser, string newPassword);
+        Task LogoutAsync();
     }
 }

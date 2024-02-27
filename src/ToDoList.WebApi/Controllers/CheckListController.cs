@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ToDoList.Application.Interfaces;
 using ToDoList.Application.Models.DTOs;
@@ -7,6 +8,7 @@ namespace ToDoList.WebApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [Authorize]
     public class CheckListController : DefaultController
     {
         private readonly ICheckListService _checkListService;

@@ -66,6 +66,7 @@ namespace ToDoList.Infra.IoC
             services.AddScoped<ICheckListService, CheckListService>();
             services.AddScoped<IItemService, ItemService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IUserInformation, UserInformation>();
 
             return services;
         }

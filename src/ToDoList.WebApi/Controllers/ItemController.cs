@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ToDoList.Application.Interfaces;
 using ToDoList.Application.Models.DTOs;
@@ -7,6 +8,8 @@ namespace ToDoList.WebApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [Authorize]
+
     public class ItemController : DefaultController
     {
         private readonly IItemService _itemService;

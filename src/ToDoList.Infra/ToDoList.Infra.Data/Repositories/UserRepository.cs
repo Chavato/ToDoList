@@ -1,35 +1,66 @@
+using Microsoft.AspNetCore.Identity;
+using ToDoList.Domain.Exceptions;
 using ToDoList.Domain.Interfaces.RepositoriesInterfaces;
+using ToDoList.Infra.Data.Identity;
 
 namespace ToDoList.Infra.Data.Repositories
 {
     public class UserRepository : IUserRepository
     {
-        public Task<bool> AuthenticateUser(string email, string password)
+
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+
+        public UserRepository(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        {
+            _userManager = userManager;
+            _signInManager = signInManager;
+        }
+
+        public async Task<bool> AuthenticateUserAsync(string email, string password)
+        {
+            ApplicationUser? user = await _userManager.FindByEmailAsync(email);
+
+            if (user == null)
+            {
+                throw new NotFoundException("User not found");
+            }
+
+            bool isAuthenticate = await _userManager.CheckPasswordAsync(user, password);
+
+            return isAuthenticate;
+        }
+
+        public Task ChangePasswordAsync(string id, string newPassword)
         {
             throw new NotImplementedException();
         }
 
-        public Task ChangePassword(string id, string newPassword)
+        public Task DeleteUserAsync(string userId)
         {
             throw new NotImplementedException();
         }
 
-        public Task DeleteUser(string userId)
+        public Task LogoutAsync()
         {
             throw new NotImplementedException();
         }
 
-        public Task Logout()
+        public async Task RegisterUserAsync(string email, string password)
         {
-            throw new NotImplementedException();
+            ApplicationUser user = new ApplicationUser(email, email);
+
+            var result = await _userManager.CreateAsync(user, password);
+
+            if (!result.Succeeded)
+            {
+                throw new Exception(result.Errors.FirstOrDefault()!.Description);
+            }
+
+            await _signInManager.SignInAsync(user, false);
         }
 
-        public Task<string> RegisterUser(string email, string password, IEnumerable<string> roles)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task UpdateUser(string id, string email)
+        public Task UpdateUserAsync(string id, string email)
         {
             throw new NotImplementedException();
         }

@@ -7,38 +7,49 @@ namespace ToDoList.Application.Services
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
+        private readonly IUserInformation _userInformation;
 
-        public UserService(IUserRepository userRepository)
+        public UserService(IUserRepository userRepository, IUserInformation userInformation)
         {
             _userRepository = userRepository;
+            _userInformation = userInformation;
         }
 
-        public Task<bool> AuthenicateUser(string email, string password)
+        public async Task<bool> AuthenicateUserAsync(string email, string password)
+        {
+            bool result = await _userRepository.AuthenticateUserAsync(email, password);
+
+            return result;
+        }
+
+        public Task<ApplicationUserDto> ChangePasswordAsync(ApplicationUserDto applicationUser, string newPassword)
         {
             throw new NotImplementedException();
         }
 
-        public Task<ApplicationUserDto> ChangePassword(ApplicationUserDto applicationUser, string newPassword)
+        public Task DeleteUserAsync(string userId)
         {
             throw new NotImplementedException();
         }
 
-        public Task DeleteUser(string userId)
+        public async Task<ApplicationUserDto> GetUserByEmailAsync(string userName)
+        {
+            ApplicationUserDto user = await _userInformation.GetUserByEmailAsync(userName);
+
+            return user;
+        }
+
+        public Task LogoutAsync()
         {
             throw new NotImplementedException();
         }
 
-        public Task Logout()
+        public async Task RegisterUserAsync(string email, string password)
         {
-            throw new NotImplementedException();
+            await _userRepository.RegisterUserAsync(email, password);
         }
 
-        public Task<ApplicationUserDto> RegisterUser(string email, string password)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<ApplicationUserDto> UpdateUser(ApplicationUserDto applicationUser)
+        public Task<ApplicationUserDto> UpdateUserAsync(ApplicationUserDto applicationUser)
         {
             throw new NotImplementedException();
         }

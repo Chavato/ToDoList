@@ -2,11 +2,11 @@ namespace ToDoList.Domain.Interfaces.RepositoriesInterfaces
 {
     public interface IUserRepository
     {
-        Task<bool> AuthenticateUser(string email, string password);
-        Task<string> RegisterUser(string email, string password, IEnumerable<string> roles);
-        Task UpdateUser(string id, string email);
-        Task DeleteUser(string userId);
-        Task ChangePassword(string id, string newPassword);
-        Task Logout();
+        Task<bool> AuthenticateUserAsync(string email, string password);
+        Task RegisterUserAsync(string email, string password);
+        Task UpdateUserAsync(string id, string email);
+        Task DeleteUserAsync(string userId);
+        Task ChangePasswordAsync(string id, string newPassword);
+        Task LogoutAsync();
     }
 }
