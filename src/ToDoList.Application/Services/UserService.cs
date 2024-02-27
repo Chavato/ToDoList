@@ -33,7 +33,7 @@ namespace ToDoList.Application.Services
             throw new NotImplementedException();
         }
 
-        public Task<ApplicationUserDto> RegisterUser(string email, string password, IEnumerable<string> roles)
+        public Task<ApplicationUserDto> RegisterUser(string email, string password)
         {
             throw new NotImplementedException();
         }
