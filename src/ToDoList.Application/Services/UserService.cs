@@ -30,14 +30,26 @@ namespace ToDoList.Application.Services
             await _userRepository.ChangePasswordAsync(user.Id, newPassword);
         }
 
-        public Task DeleteUserAsync(string userId)
+        public async Task DeleteUserByIdAsync(string userId)
         {
-            throw new NotImplementedException();
+            await _userRepository.DeleteUserByIdAsync(userId);
+        }
+
+        public async Task DeleteUserByNameAsync(string userName)
+        {
+            await _userRepository.DeleteUserByNameAsync(userName);
         }
 
         public async Task<ApplicationUserDto> GetUserByEmailAsync(string userName)
         {
             ApplicationUserDto user = await _userInformation.GetUserByEmailAsync(userName);
+
+            return user;
+        }
+
+        public async Task<ApplicationUserDto> GetUserByNameAsync(string userName)
+        {
+            ApplicationUserDto user = await _userInformation.GetUserByNameAsync(userName);
 
             return user;
         }

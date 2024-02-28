@@ -6,9 +6,11 @@ namespace ToDoList.Application.Interfaces
     {
         Task<bool> AuthenicateUserAsync(string email, string password);
         Task<ApplicationUserDto> GetUserByEmailAsync(string userEmail);
+        Task<ApplicationUserDto> GetUserByNameAsync(string userName);
         Task RegisterUserAsync(string email, string password);
         Task<ApplicationUserDto> UpdateUserAsync(ApplicationUserDto applicationUser);
-        Task DeleteUserAsync(string userId);
+        Task DeleteUserByIdAsync(string userId);
+        Task DeleteUserByNameAsync(string userName);
         Task ChangePasswordAsync(string newPassword, string userName);
         Task LogoutAsync();
     }

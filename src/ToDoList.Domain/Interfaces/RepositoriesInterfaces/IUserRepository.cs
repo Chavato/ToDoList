@@ -5,7 +5,8 @@ namespace ToDoList.Domain.Interfaces.RepositoriesInterfaces
         Task<bool> AuthenticateUserAsync(string email, string password);
         Task RegisterUserAsync(string email, string password);
         Task UpdateUserAsync(string id, string email);
-        Task DeleteUserAsync(string userId);
+        Task DeleteUserByIdAsync(string userId);
+        Task DeleteUserByNameAsync(string userName);
         Task ChangePasswordAsync(string id, string newPassword);
         Task LogoutAsync();
     }

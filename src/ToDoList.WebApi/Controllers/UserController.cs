@@ -105,9 +105,8 @@ namespace ToDoList.WebApi.Controllers
             string? userName = HttpContext.User.Identity!.Name;
 
             if (userName == null)
-            {
                 throw new Exception("Problem with access user name.");
-            }
+
 
             await _userService.ChangePasswordAsync(newPassword, userName);
 
@@ -121,6 +120,21 @@ namespace ToDoList.WebApi.Controllers
 
             return NoContent();
         }
+
+
+        [HttpDelete("[action]")]
+        public async Task<IActionResult> Delete()
+        {
+            string? userName = HttpContext.User.Identity!.Name;
+
+            if (userName == null)
+                throw new Exception("Problem with access user name.");
+
+            await _userService.DeleteUserByNameAsync(userName);
+
+            return NoContent();
+        }
+
 
         private async Task<string> GenerateTokenAsync(string userName)
         {

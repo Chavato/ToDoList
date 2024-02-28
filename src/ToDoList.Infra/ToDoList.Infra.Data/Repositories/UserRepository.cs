@@ -54,9 +54,32 @@ namespace ToDoList.Infra.Data.Repositories
             }
         }
 
-        public Task DeleteUserAsync(string userId)
+        public async Task DeleteUserByIdAsync(string userId)
         {
-            throw new NotImplementedException();
+            ApplicationUser? user = await _userManager.FindByIdAsync(userId);
+
+            if (user == null)
+                throw new NotFoundException("User not found.");
+
+            var result = await _userManager.DeleteAsync(user);
+
+            if (!result.Succeeded)
+                throw new Exception("Something was wrong.");
+
+        }
+
+        public async Task DeleteUserByNameAsync(string userName)
+        {
+            ApplicationUser? user = await _userManager.FindByNameAsync(userName);
+
+            if (user == null)
+                throw new NotFoundException("User not found.");
+
+            var result = await _userManager.DeleteAsync(user);
+
+            if (!result.Succeeded)
+                throw new Exception("Something was wrong.");
+
         }
 
         public async Task LogoutAsync()
