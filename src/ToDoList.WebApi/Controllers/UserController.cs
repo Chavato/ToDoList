@@ -99,15 +99,27 @@ namespace ToDoList.WebApi.Controllers
         }
 
         [HttpPut("[action]")]
-        public Task<IActionResult> ChangePassword()
+        public async Task<IActionResult> ChangePassword(string newPassword)
         {
-            throw new NotImplementedException();
+
+            string? userName = HttpContext.User.Identity!.Name;
+
+            if (userName == null)
+            {
+                throw new Exception("Problem with access user name.");
+            }
+
+            await _userService.ChangePasswordAsync(newPassword, userName);
+
+            return Ok(new { Message = "Password changed sucessfully." });
         }
 
         [HttpDelete("[action]")]
-        public Task<IActionResult> Logout()
+        public async Task<IActionResult> Logout()
         {
-            throw new NotImplementedException();
+            await _userService.LogoutAsync();
+
+            return NoContent();
         }
 
         private async Task<string> GenerateTokenAsync(string userName)

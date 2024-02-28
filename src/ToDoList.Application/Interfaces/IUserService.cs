@@ -9,7 +9,7 @@ namespace ToDoList.Application.Interfaces
         Task RegisterUserAsync(string email, string password);
         Task<ApplicationUserDto> UpdateUserAsync(ApplicationUserDto applicationUser);
         Task DeleteUserAsync(string userId);
-        Task<ApplicationUserDto> ChangePasswordAsync(ApplicationUserDto applicationUser, string newPassword);
+        Task ChangePasswordAsync(string newPassword, string userName);
         Task LogoutAsync();
     }
 }

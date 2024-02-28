@@ -1,4 +1,6 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Identity;
+using ToDoList.Application.Models.DTOs;
 using ToDoList.Domain.Exceptions;
 using ToDoList.Domain.Interfaces.RepositoriesInterfaces;
 using ToDoList.Infra.Data.Identity;
@@ -10,11 +12,13 @@ namespace ToDoList.Infra.Data.Repositories
 
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly IMapper _mapper;
 
-        public UserRepository(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        public UserRepository(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IMapper mapper)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _mapper = mapper;
         }
 
         public async Task<bool> AuthenticateUserAsync(string email, string password)
@@ -31,9 +35,23 @@ namespace ToDoList.Infra.Data.Repositories
             return isAuthenticate;
         }
 
-        public Task ChangePasswordAsync(string id, string newPassword)
+        public async Task ChangePasswordAsync(string id, string newPassword)
         {
-            throw new NotImplementedException();
+            ApplicationUser? user = await _userManager.FindByIdAsync(id);
+
+            if (user == null)
+            {
+                throw new NotFoundException("User not found.");
+            }
+
+            string resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+            var result = await _userManager.ResetPasswordAsync(user, resetToken, newPassword);
+
+            if (!result.Succeeded)
+            {
+                throw new Exception("Change password failed.");
+            }
         }
 
         public Task DeleteUserAsync(string userId)
@@ -41,9 +59,9 @@ namespace ToDoList.Infra.Data.Repositories
             throw new NotImplementedException();
         }
 
-        public Task LogoutAsync()
+        public async Task LogoutAsync()
         {
-            throw new NotImplementedException();
+            await _signInManager.SignOutAsync();
         }
 
         public async Task RegisterUserAsync(string email, string password)

@@ -9,6 +9,7 @@ namespace ToDoList.Application.Services
         private readonly IUserRepository _userRepository;
         private readonly IUserInformation _userInformation;
 
+
         public UserService(IUserRepository userRepository, IUserInformation userInformation)
         {
             _userRepository = userRepository;
@@ -22,9 +23,11 @@ namespace ToDoList.Application.Services
             return result;
         }
 
-        public Task<ApplicationUserDto> ChangePasswordAsync(ApplicationUserDto applicationUser, string newPassword)
+        public async Task ChangePasswordAsync(string newPassword, string userName)
         {
-            throw new NotImplementedException();
+            ApplicationUserDto user = await _userInformation.GetUserByNameAsync(userName);
+
+            await _userRepository.ChangePasswordAsync(user.Id, newPassword);
         }
 
         public Task DeleteUserAsync(string userId)
@@ -39,9 +42,9 @@ namespace ToDoList.Application.Services
             return user;
         }
 
-        public Task LogoutAsync()
+        public async Task LogoutAsync()
         {
-            throw new NotImplementedException();
+            await _userRepository.LogoutAsync();
         }
 
         public async Task RegisterUserAsync(string email, string password)

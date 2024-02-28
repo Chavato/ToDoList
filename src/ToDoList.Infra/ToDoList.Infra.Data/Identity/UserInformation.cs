@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.FileProviders;
@@ -21,6 +22,18 @@ namespace ToDoList.Infra.Data.Identity
         public async Task<ApplicationUserDto> GetUserByEmailAsync(string email)
         {
             ApplicationUser? user = await _userManager.FindByEmailAsync(email);
+
+            if (user == null)
+            {
+                throw new NotFoundException();
+            }
+
+            return _mapper.Map<ApplicationUserDto>(user);
+        }
+
+        public async Task<ApplicationUserDto> GetUserByNameAsync(string name)
+        {
+            ApplicationUser? user = await _userManager.FindByNameAsync(name);
 
             if (user == null)
             {
