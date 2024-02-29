@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 using ToDoList.Domain.Entities;
 using ToDoList.Domain.Enums;
 
@@ -8,10 +9,10 @@ namespace ToDoList.Application.Models.DTOs
     {
         public Guid? Id { get; set; }
 
-        [Required(ErrorMessage ="Name field could not be empty.")]
-        public string Name { get; set; }
+        [Required(ErrorMessage = "Name field could not be empty.")]
+        public string Name { get; set; } = string.Empty;
 
-        public string Description { get; set; }
+        public string Description { get; set; } = string.Empty;
         public DifficultyLevel DifficultyLevel { get; set; }
 
         public Priority Priority { get; set; }
@@ -21,6 +22,11 @@ namespace ToDoList.Application.Models.DTOs
 
         [DataType(DataType.DateTime)]
         public DateTime StartTime { get; set; }
+
+        [JsonIgnore]
+        public string ApplicationUserId { get; set; } = string.Empty;
+
         public IEnumerable<CheckListDto>? CheckLists { get; set; }
+
     }
 }

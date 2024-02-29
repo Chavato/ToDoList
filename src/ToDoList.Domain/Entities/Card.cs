@@ -10,19 +10,22 @@ namespace ToDoList.Domain.Entities
         public DateTime DeadLine { get; private set; }
         public DateTime StartTime { get; private set; }
         public IEnumerable<CheckList>? CheckLists { get; private set; }
+        public string ApplicationUserId { get; private set; }
 
         public Card(string name,
                     string description,
                     DifficultyLevel difficultyLevel,
                     Priority priority,
                     DateTime deadLine,
-                    DateTime startTime) : base(name)
+                    DateTime startTime,
+                    string applicationUserId) : base(name)
         {
             Description = description;
             DifficultyLevel = difficultyLevel;
             Priority = priority;
             DeadLine = deadLine;
             StartTime = startTime;
+            ApplicationUserId = applicationUserId;
         }
 
         public void Update(string name,

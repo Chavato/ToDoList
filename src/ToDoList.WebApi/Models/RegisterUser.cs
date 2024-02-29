@@ -10,7 +10,7 @@ namespace ToDoList.WebApi.Models
         public string Email { get; set; } = string.Empty;
 
         [Required]
-        [StringLength(10, MinimumLength = 4)]
+        [StringLength(20, MinimumLength = 4)]
         [DataType(DataType.Password)]
         public string Password { get; set; } = string.Empty;
     }

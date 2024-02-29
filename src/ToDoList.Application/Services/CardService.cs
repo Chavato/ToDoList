@@ -11,17 +11,23 @@ namespace ToDoList.Application.Services
     {
 
         private readonly ICardRepository _cardRepository;
+        private readonly IUserInformation _userInformation;
         private readonly IMapper _mapper;
 
-        public CardService(ICardRepository cardRepository, IMapper mapper)
+        public CardService(ICardRepository cardRepository, IMapper mapper, IUserInformation userInformation)
         {
             _cardRepository = cardRepository;
             _mapper = mapper;
+            _userInformation = userInformation;
         }
 
-        public async Task<CardDto> CreateAsync(CardDto cardDto)
+        public async Task<CardDto> CreateAsync(CardDto cardDto, string userName)
         {
-            // cardDto.Id = Guid.Empty;
+
+            ApplicationUserDto user = await _userInformation.GetUserByNameAsync(userName);
+
+            cardDto.ApplicationUserId = user.Id;
+
             var card = _mapper.Map<Card>(cardDto);
 
             await _cardRepository.CreateAsync(card);
@@ -70,7 +76,8 @@ namespace ToDoList.Application.Services
         {
             var card = await _cardRepository.GetDetailsAsync(cardId);
 
-            return _mapper.Map<CardDto>(card);        }
+            return _mapper.Map<CardDto>(card);
+        }
 
         public async Task UpdateAsync(CardDto cardDto)
         {

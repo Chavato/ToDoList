@@ -29,7 +29,12 @@ namespace ToDoList.WebApi.Controllers
 
                 ValidateModelState();
 
-                cardDto = await _cardService.CreateAsync(cardDto);
+                string? userName = HttpContext.User.Identity!.Name;
+
+                if (userName == null)
+                    throw new Exception("Problem with access user name.");
+
+                cardDto = await _cardService.CreateAsync(cardDto, userName);
 
                 return Ok(cardDto);
             }
@@ -148,7 +153,7 @@ namespace ToDoList.WebApi.Controllers
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<CardDto>))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetAllAsync()
-        { 
+        {
             try
             {
 
