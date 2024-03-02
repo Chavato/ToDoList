@@ -5,7 +5,7 @@ namespace ToDoList.Infra.Data.Identity
 {
     public class ApplicationUser : IdentityUser
     {
-        public IEnumerable<Card>? Card { get; set; }
+        public IEnumerable<Card>? Cards { get; set; }
 
         public ApplicationUser()
         {
