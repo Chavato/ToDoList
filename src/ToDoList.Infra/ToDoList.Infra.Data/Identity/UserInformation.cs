@@ -1,7 +1,6 @@
-using System.Runtime.CompilerServices;
 using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.FileProviders;
 using ToDoList.Application.Interfaces;
 using ToDoList.Application.Models.DTOs;
 using ToDoList.Domain.Exceptions;
@@ -11,12 +10,24 @@ namespace ToDoList.Infra.Data.Identity
     public class UserInformation : IUserInformation
     {
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IMapper _mapper;
 
-        public UserInformation(UserManager<ApplicationUser> userManager, IMapper mapper)
+        public UserInformation(UserManager<ApplicationUser> userManager, IMapper mapper, IHttpContextAccessor httpContextAccessor)
         {
             _userManager = userManager;
             _mapper = mapper;
+            _httpContextAccessor = httpContextAccessor;
+        }
+
+        public async Task<ApplicationUserDto> GetActualUser()
+        {
+            string? userName = _httpContextAccessor.HttpContext!.User.Identity!.Name;
+
+            if (userName == null)
+                throw new Exception("Problem with access HttpContext");
+
+            return await GetUserByNameAsync(userName);
         }
 
         public async Task<ApplicationUserDto> GetUserByEmailAsync(string email)

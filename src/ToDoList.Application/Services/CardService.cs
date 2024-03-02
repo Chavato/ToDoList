@@ -21,10 +21,10 @@ namespace ToDoList.Application.Services
             _userInformation = userInformation;
         }
 
-        public async Task<CardDto> CreateAsync(CardDto cardDto, string userName)
+        public async Task<CardDto> CreateAsync(CardDto cardDto)
         {
 
-            ApplicationUserDto user = await _userInformation.GetUserByNameAsync(userName);
+            var user = await _userInformation.GetActualUser();
 
             cardDto.ApplicationUserId = user.Id;
 

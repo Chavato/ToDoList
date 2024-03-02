@@ -21,6 +21,8 @@ namespace ToDoList.Infra.IoC
             services.AddAutoMapper(typeof(MainProfile), typeof(UserProfile));
 
             services.ConfigureDatabase(configuration);
+            services.AddHttpContextAccessor();
+
             services.AddDependencyInjectionRepositories();
             services.AddDependencyInjectionServices();
 

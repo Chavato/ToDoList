@@ -29,12 +29,7 @@ namespace ToDoList.WebApi.Controllers
 
                 ValidateModelState();
 
-                string? userName = HttpContext.User.Identity!.Name;
-
-                if (userName == null)
-                    throw new Exception("Problem with access user name.");
-
-                cardDto = await _cardService.CreateAsync(cardDto, userName);
+                cardDto = await _cardService.CreateAsync(cardDto);
 
                 return Ok(cardDto);
             }

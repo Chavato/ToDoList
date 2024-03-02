@@ -1,4 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using ToDoList.Application.Interfaces;
+using ToDoList.Application.Models.DTOs;
 using ToDoList.Domain.Entities;
 using ToDoList.Domain.Exceptions;
 using ToDoList.Domain.Interfaces.RepositoriesInterfaces;
@@ -8,25 +10,33 @@ namespace ToDoList.Infra.Data.Repositories
 {
     public class CardRepository : Repository<Card>, ICardRepository
     {
-        public CardRepository(ApplicationDbContext context) : base(context)
+        private readonly IUserInformation _userInformation;
+        public CardRepository(ApplicationDbContext context, IUserInformation userInformation) : base(context)
         {
+            _userInformation = userInformation;
         }
 
         public async Task<IEnumerable<Card>> GetAllDetailsAsync()
         {
+
+            ApplicationUserDto user = await _userInformation.GetActualUser();
+
             return await _context.Card.AsNoTracking()
-                                      .Include(card => card.CheckLists)
+                                      .Include(card => card.CheckLists)!
                                       .ThenInclude(checkList => checkList.Items)
+                                      .Where(card => card.ApplicationUserId == user.Id)
                                       .ToListAsync();
         }
 
         public async Task<Card> GetDetailsAsync(Guid cardId)
         {
 
+            ApplicationUserDto user = await _userInformation.GetActualUser();
+
             var card = await _context.Card.AsNoTracking()
-                                      .Include(card => card.CheckLists)
+                                      .Include(card => card.CheckLists)!
                                       .ThenInclude(checkList => checkList.Items)
-                                      .Where(card => card.Id == cardId)
+                                      .Where(card => card.Id == cardId && card.ApplicationUserId == user.Id)
                                       .SingleOrDefaultAsync();
 
             if (card == null)
@@ -35,6 +45,14 @@ namespace ToDoList.Infra.Data.Repositories
             }
 
             return card;
+        }
+
+        public override async Task<IEnumerable<Card>> GetAllAsync()
+        {
+            ApplicationUserDto user = await _userInformation.GetActualUser(); 
+
+            return _context.Card.AsNoTracking()
+                                .Where(card => card.ApplicationUserId == user.Id);
         }
     }
 }
