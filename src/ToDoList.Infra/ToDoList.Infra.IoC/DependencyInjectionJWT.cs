@@ -15,7 +15,7 @@ namespace ToDoList.Infra.IoC
             string? validAudienceJWT = configuration["JWT_VALID_AUDIENCE"];
             string? secretJWT = configuration["JWT_SECRET"];
 
-            if (validAudienceJWT.IsNullOrEmpty() || validIssuerJWT.IsNullOrEmpty() || secretJWT.IsNullOrEmpty())
+            if (validAudienceJWT == null || validIssuerJWT == null || secretJWT == null)
             {
                 //Create a better exception to this situation.
                 throw new Exception("JWT Environment Variables are not setted.");
