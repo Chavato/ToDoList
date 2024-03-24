@@ -1,26 +1,16 @@
-<main>
-  <section class="login-section">
-    <h2>Login</h2>
-
+<app-default-login-layout
+  title="Login"
+  primaryBtnText="Login Now"
+  secundaryBtnText="SignUp"
+>
+  <form [formGroup]="loginForm">
     <div class="inputs">
       <input type="email" placeholder="Email" />
       <!-- insert icon for email input -->
-
       <input type="password" placeholder="Password" />
-      <!-- <img src="assets/eye.svg" width="18" height="18"/> -->
+      <img src="assets/eye.svg" width="18" height="18" />
       <!-- insert icon for password input -->
-
+      <span>FORGOT YOUR PASSWORD?</span>
     </div>
-    <span>FORGOT YOUR PASSWORD?</span>
-
-    <div class="bottons">
-      <button>LOGIN</button>
-      <button>SIGN UP</button>
-    </div>
-  </section>
-
-  <section class="main-section">
-    <img src="./../../../assets/Logo-sem-fundo.png" width="105px" height="100px"/>
-    <h1>Dont Forget it!</h1>
-  </section>
-</main>
+  </form>
+</app-default-login-layout>
