@@ -3,24 +3,12 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-
-  input {
-    background: none;
-    border: none;
-    border-bottom: 1px solid var(--primary-010);
-    color: var(--primary);
-    font-size: 24px;
-    margin-top: 60px;
-  }
-  
-  span {
-    margin-top: 10px;
-    font-size: 14px;
-    color: var(--primary);
-    cursor: pointer;
-  }
 }
 
-::placeholder {
+span {
+  margin-top: 10px;
+  font-size: 14px;
   color: var(--primary);
+  cursor: pointer;
 }
+

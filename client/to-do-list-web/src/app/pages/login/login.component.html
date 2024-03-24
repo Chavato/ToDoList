@@ -2,14 +2,17 @@
   title="Login"
   primaryBtnText="Login Now"
   secundaryBtnText="SignUp"
+  (submit)="submit()"
+  (navigate)="navigate()"
 >
   <form [formGroup]="loginForm">
     <div class="inputs">
-      <input type="email" placeholder="Email" />
-      <!-- insert icon for email input -->
-      <input type="password" placeholder="Password" />
-      <img src="assets/eye.svg" width="18" height="18" />
-      <!-- insert icon for password input -->
+      <app-primary-input inputType="email" placeholder="Email">
+        <img src="assets/email.svg" width="29" height="29" />
+      </app-primary-input>
+      <app-primary-input inputType="password" placeholder="Password">
+        <img (click) = "togglePassword()" src="assets/eye.svg" width="29" height="29" />
+      </app-primary-input>
       <span>FORGOT YOUR PASSWORD?</span>
     </div>
   </form>

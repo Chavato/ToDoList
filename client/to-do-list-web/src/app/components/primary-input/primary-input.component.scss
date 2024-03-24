@@ -1,0 +1,26 @@
+.input-content {
+
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    width: 100%;
+
+  input {
+    padding-left: 15px;
+    background: none;
+    border: none;
+    border-bottom: 1px solid var(--primary-010);
+    color: var(--primary);
+    font-size: 24px;
+    margin-top: 60px;
+  }
+
+  .icon{
+    cursor: pointer;
+    margin: 0 10px;
+  }
+}
+
+::placeholder {
+  color: var(--primary);
+}
