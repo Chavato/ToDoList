@@ -10,6 +10,7 @@ import { PrimaryInputComponent } from '../../components/primary-input/primary-in
 import { Router } from '@angular/router';
 import { LoginService } from '../../services/login.service';
 import { InputType } from 'zlib';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -18,7 +19,7 @@ import { InputType } from 'zlib';
     ReactiveFormsModule,
     PrimaryInputComponent,
   ],
-  providers: [LoginService],
+  providers: [LoginService, ToastrService],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
@@ -27,9 +28,12 @@ export class LoginComponent {
 
   hidePassword: boolean = true;
 
-  constructor(private router: Router, private loginService: LoginService) {
+  constructor(private router: Router, private loginService: LoginService, private toastService: ToastrService) {
     this.loginForm = new FormGroup({
-      email: new FormControl('', [Validators.email, Validators.required]),
+      email: new FormControl('', [
+        Validators.required,
+        Validators.email, 
+      ]),
       password: new FormControl('', [
         Validators.minLength(4),
         Validators.required,
@@ -41,8 +45,8 @@ export class LoginComponent {
     this.loginService
       .login(this.loginForm.value.email, this.loginForm.value.password)
       .subscribe({
-        next: () => console.log('sucesso'),
-        error: () => console.log('error'),
+        next: () => this.toastService.success("Login Successfully"),
+        error: () => this.toastService.error("Something wrong happened."),
       });
   }
 

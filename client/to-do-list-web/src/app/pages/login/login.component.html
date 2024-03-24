@@ -2,17 +2,23 @@
   title="Login"
   primaryBtnText="Login Now"
   secundaryBtnText="SignUp"
+  [disablePrimaryBtn]="!loginForm.valid"
   (submit)="submit()"
   (navigate)="navigate()"
 >
   <form [formGroup]="loginForm">
     <div class="inputs">
-      <app-primary-input inputType="email" placeholder="Email">
+      <app-primary-input
+        inputType="email"
+        placeholder="Email"
+        formControlName="email"
+      >
         <img src="assets/email.svg" width="29" height="29" />
       </app-primary-input>
       <app-primary-input
         [inputType]="hidePassword ? 'password' : 'text'"
         placeholder="Password"
+        formControlName="password"
       >
         <img
           (click)="hidePassword = !hidePassword"

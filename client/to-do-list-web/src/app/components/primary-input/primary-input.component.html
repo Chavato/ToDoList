@@ -2,6 +2,8 @@
   <input
     [type]="inputType"
     [placeholder]="placeholder"
+    [value]="value"
+    (input)="onInput($event)"
   />
   <div class="icon">
     <ng-content></ng-content>

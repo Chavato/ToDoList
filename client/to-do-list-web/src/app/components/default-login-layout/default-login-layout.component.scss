@@ -72,6 +72,10 @@ main {
           background-color: var(--primary);
   
           cursor: pointer;
+
+          &:disabled{
+            opacity: 0.8;
+          }
         }
   
         button:hover {
