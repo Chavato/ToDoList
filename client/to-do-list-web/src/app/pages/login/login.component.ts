@@ -9,8 +9,7 @@ import {
 import { PrimaryInputComponent } from '../../components/primary-input/primary-input.component';
 import { Router } from '@angular/router';
 import { LoginService } from '../../services/login.service';
-import { log } from 'console';
-
+import { InputType } from 'zlib';
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -26,7 +25,7 @@ import { log } from 'console';
 export class LoginComponent {
   loginForm!: FormGroup;
 
-  private hidePassword: boolean = true;
+  hidePassword: boolean = true;
 
   constructor(private router: Router, private loginService: LoginService) {
     this.loginForm = new FormGroup({
@@ -49,8 +48,5 @@ export class LoginComponent {
 
   navigate() {
     this.router.navigate(['/signup']);
-  }
-  togglePassword() {
-    this.hidePassword = !this.hidePassword;
   }
 }

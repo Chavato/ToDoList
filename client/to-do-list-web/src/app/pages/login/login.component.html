@@ -10,8 +10,16 @@
       <app-primary-input inputType="email" placeholder="Email">
         <img src="assets/email.svg" width="29" height="29" />
       </app-primary-input>
-      <app-primary-input inputType="password" placeholder="Password">
-        <img (click) = "togglePassword()" src="assets/eye.svg" width="29" height="29" />
+      <app-primary-input
+        [inputType]="hidePassword ? 'password' : 'text'"
+        placeholder="Password"
+      >
+        <img
+          (click)="hidePassword = !hidePassword"
+          src="assets/eye.svg"
+          width="29"
+          height="29"
+        />
       </app-primary-input>
       <span>FORGOT YOUR PASSWORD?</span>
     </div>
