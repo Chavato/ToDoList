@@ -1,16 +1,17 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using ToDoList.Application.Interfaces;
-using ToDoList.Application.Models.DTOs;
 using ToDoList.Domain.Exceptions;
 using ToDoList.WebApi.Models;
 
 namespace ToDoList.WebApi.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("[controller]")]
     public class UserController : DefaultController
     {
@@ -24,6 +25,7 @@ namespace ToDoList.WebApi.Controllers
             _configuration = configuration;
         }
 
+        [AllowAnonymous]
         [HttpPost("[action]")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -55,8 +57,9 @@ namespace ToDoList.WebApi.Controllers
             }
         }
 
+        [AllowAnonymous]
         [HttpPost("[action]")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(LoginResponse))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -68,9 +71,12 @@ namespace ToDoList.WebApi.Controllers
 
                 if (await _userService.AuthenicateUserAsync(user.Email, user.Password))
                 {
-                    string token = await GenerateTokenAsync(user.Email);
+                    LoginResponse loginResponse = new LoginResponse
+                    {
+                        Token = await GenerateTokenAsync(user.Email)
+                    };
 
-                    return Ok(new { Token = token });
+                    return Ok(loginResponse);
                 }
                 else
                 {
@@ -99,40 +105,97 @@ namespace ToDoList.WebApi.Controllers
         }
 
         [HttpPut("[action]")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> ChangePassword(string newPassword)
         {
+            try
+            {
+                string? userName = HttpContext.User.Identity!.Name;
 
-            string? userName = HttpContext.User.Identity!.Name;
+                if (userName == null)
+                    throw new Exception("Problem with access user name.");
 
-            if (userName == null)
-                throw new Exception("Problem with access user name.");
+                await _userService.ChangePasswordAsync(newPassword, userName);
 
+                return NoContent();
+            }
 
-            await _userService.ChangePasswordAsync(newPassword, userName);
+            catch (NotFoundException err)
+            {
+                return Problem(detail: err.Message, statusCode: 404);
+            }
 
-            return Ok(new { Message = "Password changed sucessfully." });
+            catch (BadRequestException err)
+            {
+                return Problem(detail: err.Message, statusCode: 400);
+            }
+
+            catch (Exception err)
+            {
+                if (err.InnerException != null)
+                {
+                    return Problem(detail: err.InnerException.Message, statusCode: 500);
+                }
+                return Problem(detail: err.Message, statusCode: 500);
+            }
         }
 
         [HttpDelete("[action]")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Logout()
         {
-            await _userService.LogoutAsync();
+            try
+            {
+                await _userService.LogoutAsync();
 
-            return NoContent();
+                return NoContent();
+            }
+            catch (Exception err)
+            {
+                if (err.InnerException != null)
+                {
+                    return Problem(detail: err.InnerException.Message, statusCode: 500);
+                }
+                return Problem(detail: err.Message, statusCode: 500);
+            }
         }
 
 
         [HttpDelete("[action]")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+
         public async Task<IActionResult> Delete()
         {
-            string? userName = HttpContext.User.Identity!.Name;
+            try
+            {
+                string? userName = HttpContext.User.Identity!.Name;
 
-            if (userName == null)
-                throw new Exception("Problem with access user name.");
+                if (userName == null)
+                    throw new Exception("Problem with access user name.");
 
-            await _userService.DeleteUserByNameAsync(userName);
+                await _userService.DeleteUserByNameAsync(userName);
 
-            return NoContent();
+                return NoContent();
+            }
+
+            catch (NotFoundException err)
+            {
+                return Problem(detail: err.Message, statusCode: 404);
+            }
+
+            catch (Exception err)
+            {
+                if (err.InnerException != null)
+                {
+                    return Problem(detail: err.InnerException.Message, statusCode: 500);
+                }
+                return Problem(detail: err.Message, statusCode: 500);
+            }
         }
 
 
