@@ -45,7 +45,7 @@ export class LoginComponent {
     this.loginService
       .login(this.loginForm.value.email, this.loginForm.value.password)
       .subscribe({
-        next: () => this.toastService.success("Login Successfully"),
+        next: () => this.router.navigate(['']),
         error: () => this.toastService.error("Something wrong happened."),
       });
   }
