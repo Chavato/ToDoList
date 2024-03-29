@@ -11,13 +11,25 @@ export class LoginService {
   private url: string = environment.api;
 
   constructor(private httpClient: HttpClient) {}
+
   login(email: String, password: string) {
-    console.log(this.url);
     return this.httpClient
       .post<LoginResponse>(this.url + '/User/Login', { email, password })
       .pipe(
         tap((value) => {
           sessionStorage.setItem('auth-token', value.token);
+        })
+      );
+  }
+
+  changePassword(oldPassword: string, newPassword: string) {
+    return this.httpClient
+      .put<LoginResponse>(this.url + '/User/ChangePassword', {
+        oldPassword,
+        newPassword,
+      })
+      .pipe(
+        tap(() => {
         })
       );
   }
