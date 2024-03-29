@@ -108,16 +108,18 @@ namespace ToDoList.WebApi.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> ChangePassword(string newPassword)
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordModel passwordModel)
         {
             try
             {
+                ValidateModelState();
+
                 string? userName = HttpContext.User.Identity!.Name;
 
                 if (userName == null)
                     throw new Exception("Problem with access user name.");
 
-                await _userService.ChangePasswordAsync(newPassword, userName);
+                await _userService.ChangePasswordAsync(passwordModel.NewPassword, userName);
 
                 return NoContent();
             }
