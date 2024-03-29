@@ -1,1 +1,42 @@
-<p>sign-up works!</p>
+<app-default-login-layout
+  title="SIGN IN"
+  primaryBtnText="SIGN UP"
+  secundaryBtnText="BACK TO LOGIN"
+  [disablePrimaryBtn]="!signInForm.valid"
+  (navigate)="navigate()"
+  (submit)="submit()"
+>
+  <form [formGroup]="signInForm">
+    <app-primary-input
+      inputType="text"
+      placeholder="Enter your user name"
+      label="User Name"
+      id="userName"
+      formControlName="userName"
+    ></app-primary-input>
+
+    <app-primary-input
+      inputType="email"
+      placeholder="Enter your email"
+      label="Email"
+      id="email"
+      formControlName="email"
+    ></app-primary-input>
+
+    <app-primary-input
+      inputType="password"
+      placeholder="Enter your password"
+      label="Password"
+      id="pass"
+      formControlName="password"
+    ></app-primary-input>
+
+    <app-primary-input
+      inputType="password"
+      placeholder="Repeat your password"
+      label="Repeat your password"
+      id="rpassword"
+      formControlName="confirmPassword"
+    ></app-primary-input>
+  </form>
+</app-default-login-layout>
