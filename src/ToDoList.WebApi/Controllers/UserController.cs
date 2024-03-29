@@ -34,7 +34,6 @@ namespace ToDoList.WebApi.Controllers
         {
             try
             {
-
                 ValidateModelState();
 
                 await _userService.RegisterUserAsync(userRegister.Email, userRegister.Password);

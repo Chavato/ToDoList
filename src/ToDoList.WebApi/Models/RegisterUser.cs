@@ -4,6 +4,11 @@ namespace ToDoList.WebApi.Models
 {
     public class RegisterUser
     {
+
+        [Required]
+        [StringLength(25, MinimumLength = 4, ErrorMessage = "User Name lenght must be between 4 and 25 characters.")]
+        public string UserName { get; set; } = string.Empty;
+
         [Required]
         [MaxLength(64)]
         [DataType(DataType.EmailAddress)]
