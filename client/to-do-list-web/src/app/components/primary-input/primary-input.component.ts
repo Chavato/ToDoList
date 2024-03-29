@@ -1,4 +1,4 @@
-import { Component, Input, forwardRef } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, Component, ElementRef, Input, ViewChild, forwardRef } from '@angular/core';
 import {
   ControlValueAccessor,
   NG_VALUE_ACCESSOR,
@@ -21,11 +21,15 @@ type InputTypes = 'text' | 'email' | 'password';
   templateUrl: './primary-input.component.html',
   styleUrl: './primary-input.component.scss',
 })
-export class PrimaryInputComponent implements ControlValueAccessor {
+export class PrimaryInputComponent implements ControlValueAccessor{
   @Input() inputType: InputTypes = 'text';
   @Input() placeholder: string = '';
   @Input() imgSrc!: string;
+  @Input() label!: string;
+  @Input() id!: string;
 
+  @ViewChild('id') input!: ElementRef;
+  
   value: string = '';
   onChange: any = () => {};
   onTouched: any = () => {};
