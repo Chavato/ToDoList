@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { LoginResponse } from '../types/login-response.type';
+import { LoginResponse } from '../models/user/login-response.type';
 import { tap } from 'rxjs';
 import { environment } from '../../environments/environment';
+import { UserRegister } from '../models/user/user-register';
 
 @Injectable({
   providedIn: 'root',
@@ -22,15 +23,20 @@ export class LoginService {
       );
   }
 
+  register(userRegister: UserRegister) {
+    return this.httpClient.post<string>(
+      this.url + '/User/Register',
+      userRegister
+    );
+  }
+
   changePassword(oldPassword: string, newPassword: string) {
-    return this.httpClient
-      .put<LoginResponse>(this.url + '/User/ChangePassword', {
+    return this.httpClient.put<LoginResponse>(
+      this.url + '/User/ChangePassword',
+      {
         oldPassword,
         newPassword,
-      })
-      .pipe(
-        tap(() => {
-        })
-      );
+      }
+    );
   }
 }
