@@ -9,7 +9,6 @@ import {
 import { PrimaryInputComponent } from '../../components/primary-input/primary-input.component';
 import { Router } from '@angular/router';
 import { LoginService } from '../../services/login.service';
-import { InputType } from 'zlib';
 import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-login',
@@ -28,12 +27,13 @@ export class LoginComponent {
 
   hidePassword: boolean = true;
 
-  constructor(private router: Router, private loginService: LoginService, private toastService: ToastrService) {
+  constructor(
+    private router: Router,
+    private loginService: LoginService,
+    private toastService: ToastrService
+  ) {
     this.loginForm = new FormGroup({
-      email: new FormControl('', [
-        Validators.required,
-        Validators.email, 
-      ]),
+      email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [
         Validators.minLength(4),
         Validators.required,
@@ -46,7 +46,7 @@ export class LoginComponent {
       .login(this.loginForm.value.email, this.loginForm.value.password)
       .subscribe({
         next: () => this.router.navigate(['']),
-        error: () => this.toastService.error("Something wrong happened."),
+        error: (error) => this.toastService.error(error.error.detail),
       });
   }
 
