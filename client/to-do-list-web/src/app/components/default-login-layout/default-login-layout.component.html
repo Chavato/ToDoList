@@ -2,10 +2,13 @@
   <section class="login-section">
     <h2>{{ title }}</h2>
 
-    <ng-content></ng-content>
-
+    <div class="wrapper">
+      <ng-content></ng-content>
+    </div>
     <div class="btn-wrapper">
-      <button (click)="submit()" [disabled]="disablePrimaryBtn">{{ primaryBtnText }}</button>
+      <button (click)="submit()" [disabled]="disablePrimaryBtn">
+        {{ primaryBtnText }}
+      </button>
       <button (click)="navigate()">{{ secundaryBtnText }}</button>
     </div>
   </section>
