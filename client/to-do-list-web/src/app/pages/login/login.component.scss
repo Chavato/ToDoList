@@ -1,15 +1,23 @@
-.inputs {
+form {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   width: 100%;
-}
 
-span {
-  margin-top: 10px;
-  font-size: 14px;
-  color: var(--primary);
-  cursor: pointer;
-}
+  .inputs {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    gap: 20px;
+  }
 
+  span {
+    margin-top: 10px;
+    font-size: 14px;
+    color: var(--primary);
+    cursor: pointer;
+  }
+}
