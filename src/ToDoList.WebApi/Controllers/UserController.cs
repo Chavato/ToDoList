@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using ToDoList.Application.Interfaces;
+using ToDoList.Application.Models.DTOs;
 using ToDoList.Domain.Exceptions;
 using ToDoList.WebApi.Models;
 
@@ -30,13 +31,13 @@ namespace ToDoList.WebApi.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Register(RegisterUser userRegister)
+        public async Task<IActionResult> Register(RegisterUserDto userRegister)
         {
             try
             {
                 ValidateModelState();
 
-                await _userService.RegisterUserAsync(userRegister.Email, userRegister.Password);
+                await _userService.RegisterUserAsync(userRegister);
 
                 return Ok(new { Message = "User registered" });
             }
@@ -62,13 +63,13 @@ namespace ToDoList.WebApi.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Login(LoginUser user)
+        public async Task<IActionResult> Login(LoginUserDto user)
         {
             try
             {
                 ValidateModelState();
 
-                if (await _userService.AuthenicateUserAsync(user.Email, user.Password))
+                if (await _userService.AuthenicateUserAsync(user))
                 {
                     LoginResponse loginResponse = new LoginResponse
                     {
@@ -107,7 +108,7 @@ namespace ToDoList.WebApi.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordModel passwordModel)
+        public async Task<IActionResult> ChangePassword(ChangePasswordDto changePasswordModel)
         {
             try
             {
@@ -118,7 +119,7 @@ namespace ToDoList.WebApi.Controllers
                 if (userName == null)
                     throw new Exception("Problem with access user name.");
 
-                await _userService.ChangePasswordAsync(passwordModel.NewPassword, userName);
+                await _userService.ChangePasswordAsync(changePasswordModel, userName);
 
                 return NoContent();
             }

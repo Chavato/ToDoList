@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace ToDoList.WebApi.Models
+namespace ToDoList.Application.Models.DTOs
 {
-    public class RegisterUser
+    public class RegisterUserDto
     {
 
         [Required]

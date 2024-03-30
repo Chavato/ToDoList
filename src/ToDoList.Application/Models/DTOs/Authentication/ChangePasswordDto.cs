@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace ToDoList.WebApi.Models
+namespace ToDoList.Application.Models.DTOs
 {
-    public class ChangePasswordModel
+    public class ChangePasswordDto
     {
         [Required]
         [StringLength(20, MinimumLength = 4)]

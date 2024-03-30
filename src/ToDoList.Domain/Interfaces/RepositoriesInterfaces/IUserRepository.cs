@@ -2,8 +2,9 @@ namespace ToDoList.Domain.Interfaces.RepositoriesInterfaces
 {
     public interface IUserRepository
     {
-        Task<bool> AuthenticateUserAsync(string email, string password);
-        Task RegisterUserAsync(string email, string password);
+        Task<bool> AuthenticateUserByEmailAsync(string email, string password);
+        Task<bool> AuthenticateUserByUserNameAsync(string userName, string password);
+        Task RegisterUserAsync(string userName, string email, string password);
         Task UpdateUserAsync(string id, string email);
         Task DeleteUserByIdAsync(string userId);
         Task DeleteUserByNameAsync(string userName);

@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace ToDoList.WebApi.Models
+namespace ToDoList.Application.Models.DTOs
 {
-    public class LoginUser
+    public class LoginUserDto
     {
         [Required]
         [MaxLength(64)]

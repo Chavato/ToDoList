@@ -1,5 +1,6 @@
 using ToDoList.Application.Interfaces;
 using ToDoList.Application.Models.DTOs;
+using ToDoList.Domain.Exceptions;
 using ToDoList.Domain.Interfaces.RepositoriesInterfaces;
 
 namespace ToDoList.Application.Services
@@ -9,25 +10,29 @@ namespace ToDoList.Application.Services
         private readonly IUserRepository _userRepository;
         private readonly IUserInformation _userInformation;
 
-
         public UserService(IUserRepository userRepository, IUserInformation userInformation)
         {
             _userRepository = userRepository;
             _userInformation = userInformation;
         }
 
-        public async Task<bool> AuthenicateUserAsync(string email, string password)
+        public async Task<bool> AuthenicateUserAsync(LoginUserDto loginUser)
         {
-            bool result = await _userRepository.AuthenticateUserAsync(email, password);
+            bool result = await _userRepository.AuthenticateUserByEmailAsync(loginUser.Email, loginUser.Password);
 
             return result;
         }
 
-        public async Task ChangePasswordAsync(string newPassword, string userName)
+        public async Task ChangePasswordAsync(ChangePasswordDto changePassword, string userName)
         {
             ApplicationUserDto user = await _userInformation.GetUserByNameAsync(userName);
 
-            await _userRepository.ChangePasswordAsync(user.Id, newPassword);
+            if (await _userRepository.AuthenticateUserByUserNameAsync(userName, changePassword.OldPassword))
+                await _userRepository.ChangePasswordAsync(user.Id, changePassword.NewPassword);
+
+            else
+                throw new BadRequestException("The old password is wrong.");
+
         }
 
         public async Task DeleteUserByIdAsync(string userId)
@@ -59,9 +64,11 @@ namespace ToDoList.Application.Services
             await _userRepository.LogoutAsync();
         }
 
-        public async Task RegisterUserAsync(string email, string password)
+        public async Task RegisterUserAsync(RegisterUserDto registerUser)
         {
-            await _userRepository.RegisterUserAsync(email, password);
+            await _userRepository.RegisterUserAsync(registerUser.UserName,
+                                                    registerUser.Email,
+                                                    registerUser.Password);
         }
 
         public Task<ApplicationUserDto> UpdateUserAsync(ApplicationUserDto applicationUser)

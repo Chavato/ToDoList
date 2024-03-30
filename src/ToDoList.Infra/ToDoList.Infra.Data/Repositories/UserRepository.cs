@@ -21,9 +21,23 @@ namespace ToDoList.Infra.Data.Repositories
             _mapper = mapper;
         }
 
-        public async Task<bool> AuthenticateUserAsync(string email, string password)
+        public async Task<bool> AuthenticateUserByEmailAsync(string email, string password)
         {
             ApplicationUser? user = await _userManager.FindByEmailAsync(email);
+
+            if (user == null)
+            {
+                throw new NotFoundException("User not found");
+            }
+
+            bool isAuthenticate = await _userManager.CheckPasswordAsync(user, password);
+
+            return isAuthenticate;
+        }
+
+        public async Task<bool> AuthenticateUserByUserNameAsync(string userName, string password)
+        {
+            ApplicationUser? user = await _userManager.FindByNameAsync(userName);
 
             if (user == null)
             {
@@ -87,9 +101,9 @@ namespace ToDoList.Infra.Data.Repositories
             await _signInManager.SignOutAsync();
         }
 
-        public async Task RegisterUserAsync(string email, string password)
+        public async Task RegisterUserAsync(string userName, string email, string password)
         {
-            ApplicationUser user = new ApplicationUser(email, email);
+            ApplicationUser user = new ApplicationUser(userName, email);
 
             var result = await _userManager.CreateAsync(user, password);
 
