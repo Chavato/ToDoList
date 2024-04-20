@@ -1,6 +1,7 @@
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using ToDoList.Infra.Data.Context;
 using ToDoList.Infra.IoC;
 
@@ -36,7 +37,15 @@ var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
+    app.UseSwagger(opt =>
+    {
+       opt.PreSerializeFilters.Add((swagger, httpReq) =>
+       {
+            var ngInxUrl = $"http://{httpReq.Host}/api/";
+            var serverUrl = $"http://{httpReq.Host}/";
+            swagger.Servers = new List<OpenApiServer>{new() { Url = ngInxUrl}, new() { Url = serverUrl }};
+       });
+    });
     app.UseSwaggerUI();
 }
 
